@@ -1,587 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Yout8 – Professional YouTube Downloader</title>
-    <link rel="icon" type="image/x-icon" href="resources/yout8_icon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yout8 - Otimização em Download de Mídia</title>
     <style>
-        * {
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-blue: #2b5797;
+            --secondary-blue: #f0f5f9;
+            --border-color: #dddddd;
+            --footer-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #e0e0e0;
+            --accent-blue: #4a9eff;
+            --secondary-blue: #1a1a1a;
+            --border-color: #333333;
+            --footer-bg: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
 
-        /* Classic VideoLAN utilitarian style — clean, grid-based, sans-serif */
-        body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Roboto, 'Lucida Grande', sans-serif;
-            line-height: 1.5;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        /* Light theme (default) */
-        body.light {
-            --bg-body: #ffffff;
-            --bg-surface: #f8f8f8;
-            --bg-card: #ffffff;
-            --text-primary: #1e1e1e;
-            --text-secondary: #3b3b3b;
-            --text-muted: #5a5a5a;
-            --border-light: #e0e0e0;
-            --link-blue: #0066cc;
-            --link-blue-hover: #004999;
-            --accent-orange: #f27d00;
-            --accent-orange-light: #ff8c1a;
-            --header-border: #d4d4d4;
-            --code-bg: #f2f2f2;
-        }
-
-        /* Deep black dark theme (preto profundo) */
-        body.dark {
-            --bg-body: #000000;
-            --bg-surface: #0a0a0a;
-            --bg-card: #111111;
-            --text-primary: #f0f0f0;
-            --text-secondary: #cccccc;
-            --text-muted: #a0a0a0;
-            --border-light: #2a2a2a;
-            --link-blue: #3c9eff;
-            --link-blue-hover: #7bb8ff;
-            --accent-orange: #ff8c2e;
-            --accent-orange-light: #ffa352;
-            --header-border: #2a2a2a;
-            --code-bg: #1a1a1a;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-
-        /* header */
-        .top-bar {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-light);
-            flex-wrap: wrap;
+            padding: 10px 10%;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
+        .logo-img {
+            width: 40px;
+            height: 40px;
         }
 
-        .brand h1 {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            color: var(--text-primary);
-        }
-
-        .brand .version {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .theme-toggle {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 14px;
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--accent-blue);
             font-weight: 500;
+        }
+
+        #theme-toggle {
+            padding: 5px 15px;
             cursor: pointer;
-            color: var(--text-primary);
-            transition: all 0.2s;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
         }
 
-        .theme-toggle:hover {
-            background: var(--accent-orange);
-            color: #000;
-            border-color: var(--accent-orange);
-        }
-
-        /* hero section with download call */
         .hero {
             text-align: center;
-            padding: 50px 0 40px;
+            padding: 60px 10%;
+            background: linear-gradient(to bottom, var(--secondary-blue), var(--bg-color));
         }
 
-        .hero h2 {
-            font-size: 42px;
-            font-weight: 500;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--link-blue) 0%, var(--accent-orange) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 16px;
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
         }
 
-        .hero .tagline {
-            font-size: 18px;
-            color: var(--text-secondary);
+        .hero p {
+            font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 30px;
         }
 
-        .btn-download {
+        .btn-main-download {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
             display: inline-block;
-            background-color: var(--accent-orange);
-            color: #000000;
-            font-weight: 700;
-            font-size: 20px;
-            padding: 14px 40px;
-            border-radius: 60px;
-            text-decoration: none;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            border: none;
-            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn-download:hover {
-            background-color: var(--accent-orange-light);
-            transform: scale(1.02);
-        }
-
-        .small-links {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .small-links a {
-            color: var(--link-blue);
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        .small-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* feature grid (clean cards) */
-        .section-title {
-            font-size: 28px;
-            font-weight: 500;
-            margin: 50px 0 25px 0;
-            border-left: 4px solid var(--accent-orange);
-            padding-left: 18px;
-        }
-
-        .features-grid {
+        .specs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 28px;
-            margin-bottom: 40px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            padding: 22px 20px;
-            transition: box-shadow 0.2s;
-        }
-
-        .feature-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .feature-card p, .feature-card li {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .feature-card ul {
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-
-        .feature-card li {
-            margin: 6px 0;
-        }
-
-        .badge-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .badge {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        /* requirements + technical */
-        .two-columns {
-            display: flex;
-            flex-wrap: wrap;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin: 30px 0 20px;
+            padding: 40px 10%;
+            border-top: 1px solid var(--border-color);
         }
 
-        .info-box {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 24px;
+        .spec-item h3 {
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 5px;
         }
 
-        .info-box h3 {
-            font-size: 22px;
-            margin-bottom: 16px;
-            font-weight: 500;
+        footer {
+            background-color: var(--footer-bg);
+            padding: 40px 10%;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
         }
 
-        .info-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .info-box li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .info-box li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: var(--accent-orange);
-        }
-
-        hr {
-            border-color: var(--border-light);
-            margin: 30px 0;
-        }
-
-        /* footer columns similar to videolan style */
-        .footer-grid {
+        .footer-columns {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-            padding: 40px 0 30px;
-            border-top: 1px solid var(--border-light);
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr);
         }
 
-        .footer-col h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 18px;
-            color: var(--text-primary);
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col a {
-            color: var(--link-blue);
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .footer-col a:hover {
-            text-decoration: underline;
-        }
-
-        .copyright {
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            padding: 20px 0 40px;
-            border-top: 1px solid var(--border-light);
-            margin-top: 0;
-        }
-
-        @media (max-width: 780px) {
-            .container {
-                padding: 0 20px;
-            }
-            .hero h2 {
-                font-size: 32px;
-            }
-        }
-
-        a {
-            color: var(--link-blue);
-        }
-        .text-muted {
-            color: var(--text-muted);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-decoration: none;
+        .version-tag {
+            color: #888;
+            font-size: 0.8rem;
         }
     </style>
 </head>
-<body class="light">
-    <div class="container">
-        <!-- header -->
-        <div class="top-bar">
-            <div class="logo-area">
-                <img src="resources/yout8_icon.ico" alt="Yout8 icon" class="logo-icon" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23f27d00\'/%3E%3Ctext x=\'50\' y=\'67\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\'%3EY8%3C/text%3E%3C/svg%3E';">
-                <div class="brand">
-                    <h1>Yout8</h1>
-                    <div class="version">version 1.0.0 · first release</div>
-                </div>
-            </div>
-            <button id="themeToggleBtn" class="theme-toggle">Dark theme</button>
-        </div>
+<body>
 
-        <!-- hero / CTA -->
-        <div class="hero">
-            <h2>High‑performance YouTube downloader</h2>
-            <p class="tagline">Audio, video, playlists & Shorts — advanced codecs, bitrate control, 8K support and complete privacy.</p>
-            <a href="pages/downloads.html" class="btn-download">↓ Download for Windows</a>
-            <div class="small-links">
-                <a href="#about">About</a> •
-                <a href="pages/downloads.html">All downloads</a> •
-                <a href="https://github.com/Yout8/yout8-repository" target="_blank">Repository</a>
-            </div>
-        </div>
+<header>
+    <div class="logo-area">
+        <img src="resources/yout8_icon.ico" alt="Yout8 Icon" class="logo-img">
+        <strong>Yout8</strong>
+    </div>
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="pages/downloads.html">Downloads</a>
+        <a href="https://github.com/Yout8/yout8-repository">GitHub</a>
+        <button id="theme-toggle">Trocar Tema</button>
+    </nav>
+</header>
 
-        <!-- main features from program.cs essence -->
-        <div class="section-title">Core features</div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>📀 Audio & video mastery</h3>
-                <p><strong>Audio:</strong> MP3, AAC, OGG, WAV, FLAC, M4A, WMA, OPUS. Bitrate up to 320 kbps.<br>
-                <strong>Video:</strong> MP4, AVI, MKV, MOV, WMV, FLV, WEBM, 3GP. Quality from 144p to 4320p (8K).</p>
-                <div class="badge-list">
-                    <span class="badge">YouTube playlists</span>
-                    <span class="badge">Shorts support</span>
-                    <span class="badge">Custom thumbnails</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <h3>⚙️ Advanced download engine</h3>
-                <p>Concurrent downloads (max 10), speed limiter (KB/s), intelligent queue. Integrated audio merging via FFmpeg. Synchronized video+audio extraction.</p>
-                <div class="badge-list">
-                    <span class="badge">Adaptive throttling</span>
-                    <span class="badge">Resume ready</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <h3>🎚️ Customization & metadata</h3>
-                <p>Embed cover art (thumbnails or custom images). Write ID3 tags (title, artist) via TagLibSharp. Choose between no cover, video thumbnail or personal picture.</p>
-                <div class="badge-list">
-                    <span class="badge">Album art support</span>
-                    <span class="badge">Merge audio bitrate</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <h3>⚡ Integrity & reliability</h3>
-                <p>Startup integrity checker (DLL verification, write permissions). Detailed logging system, theme engine (Dark/Light/Amoled), cache manager for thumbnails.</p>
-                <div class="badge-list">
-                    <span class="badge">Auto cache cleanup</span>
-                    <span class="badge">History tracker</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <h3>🌐 Network & proxy stack</h3>
-                <p>Built-in proxy support, custom DNS, bandwidth limiter. Uses YoutubeExplode with optimized HTTP pipeline, Pipe streams, speed limiting.</p>
-                <div class="badge-list">
-                    <span class="badge">HTTP/2 ready</span>
-                    <span class="badge">IPv6 compatible</span>
-                </div>
-            </div>
-            <div class="feature-card">
-                <h3>🎛️ Power user toolkit</h3>
-                <p>Simultaneous conversion threads, merge video+audio with FFmpeg, playlist folder creation, remember last choices, default external players.</p>
-                <div class="badge-list">
-                    <span class="badge">Multi‑thread conversion</span>
-                    <span class="badge">Playlist auto‑folder</span>
-                </div>
-            </div>
-        </div>
+<main>
+    <section class="hero">
+        <h1>Baixe vídeos e áudios com precisão</h1>
+        <p>Um utilitário robusto para Windows que processa URLs, Playlists e Shorts com suporte a múltiplos formatos e alta fidelidade.</p>
+        <a href="pages/downloads.html" class="btn-main-download">Baixar Yout8</a>
+        <p class="version-tag">Versão 1.0.0 | Compatível com Windows (x86/x64)</p>
+    </section>
 
-        <!-- about section with repo link -->
-        <div id="about" class="section-title">About Yout8</div>
-        <div class="info-box" style="margin-bottom: 20px;">
-            <p style="margin-bottom: 12px;"><strong>Yout8</strong> is a professional, open‑source Windows desktop application designed for high‑performance downloading from YouTube. Built with C# .NET, it leverages YoutubeExplode, NAudio (LAME mp3 encoder), TagLibSharp and SixLabors.ImageSharp. The project focuses on <strong>privacy, speed and advanced format control</strong> – no background telemetry, purely local.</p>
-            <p>Developed for users who need reliable audio extraction, 8K video retention, playlist archiving and complete metadata editing. The interface follows a classic utilitarian style (inspired by VideoLAN) and offers full theming support.</p>
-            <div style="margin-top: 20px;">
-                <a href="https://github.com/Yout8/yout8-repository" target="_blank" class="btn-outline" style="margin-right: 12px;">📦 GitHub Repository</a>
-                <a href="https://github.com/Yout8" target="_blank" class="btn-outline">👤 Yout8 GitHub</a>
-            </div>
+    <section class="specs-grid">
+        <div class="spec-item">
+            <h3>Funcionalidades</h3>
+            <ul>
+                <li>Suporte a URLs, Playlists e Shorts</li>
+                <li>Áudio: MP3, AAC, FLAC, OPUS (até 320kbps)</li>
+                <li>Vídeo: MP4, MKV até 4K/8K</li>
+                <li>Edição de metadados com TagLibSharp</li>
+            </ul>
         </div>
-
-        <!-- system requirements + technical info two columns -->
-        <div class="two-columns">
-            <div class="info-box">
-                <h3>Minimum system requirements</h3>
-                <ul>
-                    <li><strong>OS:</strong> Windows 7 SP1 / 8.1 / 10 / 11 (64‑bit & 32‑bit compatible) </li>
-                    <li><strong>Architecture:</strong> x86, x64 (uses 32‑bit compatibility layer on x64 systems)</li>
-                    <li><strong>CPU:</strong> 1.5 GHz dual-core or better</li>
-                    <li><strong>RAM:</strong> 2 GB (4 GB recommended for 8K streams)</li>
-                    <li><strong>Storage:</strong> 200 MB free for app + temp/cache space</li>
-                    <li><strong>Display:</strong> 1024x768 or higher</li>
-                </ul>
-            </div>
-            <div class="info-box">
-                <h3>Technical prerequisites</h3>
-                <ul>
-                    <li>.NET Desktop Runtime 6.0 or later (included in installer / self-contained)</li>
-                    <li>Visual C++ Redistributable (required by NAudio.Lame)</li>
-                    <li>FFmpeg (optional but recommended for video+audio muxing) → <span class="text-muted">set path in Settings</span></li>
-                    <li>DirectX 9.0c (for GUI rendering)</li>
-                    <li>Internet connection (broadband recommended)</li>
-                </ul>
-                <div class="badge-list" style="margin-top: 16px;">
-                    <span class="badge">x86 + x64 support</span>
-                    <span class="badge">Portable mode ready</span>
-                </div>
-            </div>
+        <div class="spec-item">
+            <h3>Requisitos de Sistema</h3>
+            <ul>
+                <li>SO: Windows 7 / 8 / 10 / 11</li>
+                <li>Arquitetura: x86 ou x64</li>
+                <li>Ambiente: .NET 8.0 (Versão disponível com runtime incluso)</li>
+            </ul>
         </div>
-
-        <!-- additional technical insight from codebase -->
-        <div class="info-box" style="margin: 10px 0 10px;">
-            <h3>Under the hood — built with robust libraries</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px;">
-                <span class="badge">YoutubeExplode (stream extraction)</span>
-                <span class="badge">NAudio + Lame (mp3/audio encoding)</span>
-                <span class="badge">TagLibSharp (ID3 tags)</span>
-                <span class="badge">SixLabors.ImageSharp (thumb processing)</span>
-                <span class="badge">System.IO.Pipelines (high-speed I/O)</span>
-                <span class="badge">SemaphoreSlim (concurrency control)</span>
-            </div>
-            <p style="margin-top: 18px; font-size: 14px;">Integrity checker validates required DLLs, permission tests and auto‑repair suggestions. Full logging system, per‑task speed monitoring, pause/resume per download, and memory-optimized thumbnail caching.</p>
+        <div class="spec-item">
+            <h3>Hardware Mínimo</h3>
+            <ul>
+                <li>Processador: 1.0 GHz ou superior</li>
+                <li>Memória RAM: 512MB livre</li>
+                <li>Espaço: 50MB para aplicação</li>
+            </ul>
         </div>
+    </section>
+</main>
 
-        <!-- language & version info -->
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; margin: 20px 0 10px;">
-            <div><span class="badge" style="background: var(--accent-orange); color: #000;">🌐 Languages: Português (pt-BR) · English</span></div>
-            <div><span class="badge">Current stable: 1.0.0</span></div>
+<footer>
+    <div class="footer-columns">
+        <div>
+            <h4>Yout8 Project</h4>
+            <p>Desenvolvido com C# e YoutubeExplode.</p>
         </div>
-
-        <!-- footer with classic VideoLAN-like columns -->
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>For everyone</h4>
-                <ul>
-                    <li><a href="pages/downloads.html">Download Yout8</a></li>
-                    <li><a href="#about">About project</a></li>
-                    <li><a href="#">Quick start guide</a></li>
-                    <li><span class="text-muted">Windows native app</span></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>For professionals</h4>
-                <ul>
-                    <li><a href="#">8K / 4320p encoding</a></li>
-                    <li><a href="#">FFmpeg integration</a></li>
-                    <li><a href="#">Proxy & DNS customization</a></li>
-                    <li><span class="text-muted">Concurrent downloads up to 10</span></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>For developers</h4>
-                <ul>
-                    <li><a href="https://github.com/Yout8/yout8-repository" target="_blank">GitHub repository</a></li>
-                    <li><a href="https://github.com/Yout8/yout8-repository/issues" target="_blank">Report issues</a></li>
-                    <li><a href="#">API documentation</a></li>
-                    <li><span class="text-muted">Open source · MIT License</span></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Changelog 1.0.0</a></li>
-                    <li><a href="#">Supported formats table</a></li>
-                    <li><a href="#">Keyboard shortcuts (Ctrl+Shift+M logs, etc)</a></li>
-                    <li><span class="text-muted">No tracking, offline-first</span></li>
-                </ul>
-            </div>
+        <div>
+            <h4>Comunidade</h4>
+            <a href="https://github.com/Yout8/yout8-repository">Repositório GitHub</a>
         </div>
-
-        <div class="copyright">
-            Yout8 1.0.0 — Free software inspired by utilitarian design. Windows compatible (x86/x64). <br>
-            Built with .NET · NAudio · YoutubeExplode · TagLibSharp
+        <div>
+            <h4>Idiomas</h4>
+            <p>Português, Inglês</p>
         </div>
     </div>
+</footer>
 
-    <script>
-        // theme toggle logic: dark / light, persistent with localStorage
-        const themeBtn = document.getElementById('themeToggleBtn');
-        const body = document.body;
+<script>
+    const btn = document.getElementById('theme-toggle');
+    btn.onclick = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', targetTheme);
+    };
+</script>
 
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                body.classList.remove('light');
-                body.classList.add('dark');
-                localStorage.setItem('yout8_theme', 'dark');
-                themeBtn.textContent = 'Light theme';
-            } else {
-                body.classList.remove('dark');
-                body.classList.add('light');
-                localStorage.setItem('yout8_theme', 'light');
-                themeBtn.textContent = 'Dark theme';
-            }
-        }
-
-        // load saved theme
-        const savedTheme = localStorage.getItem('yout8_theme');
-        if (savedTheme === 'dark') {
-            setTheme('dark');
-        } else if (savedTheme === 'light') {
-            setTheme('light');
-        } else {
-            // default light, matching VideoLAN style
-            setTheme('light');
-        }
-
-        themeBtn.addEventListener('click', () => {
-            const isDark = body.classList.contains('dark');
-            if (isDark) {
-                setTheme('light');
-            } else {
-                setTheme('dark');
-            }
-        });
-
-        // small helper to show that downloads.html link works and avoid broken internal links
-        // handle any possible missing pages gracefully, but we keep href as intended.
-        console.log("Yout8 landing — inspired by VideoLAN utilitarian design.");
-    </script>
 </body>
 </html>
