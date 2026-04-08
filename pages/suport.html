@@ -1,1 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte - Yout8</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-blue: #2b5797;
+            --secondary-blue: #f0f5f9;
+            --border-color: #dddddd;
+            --footer-bg: #f8f9fa;
+        }
 
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #e0e0e0;
+            --accent-blue: #4a9eff;
+            --secondary-blue: #1a1a1a;
+            --border-color: #333333;
+            --footer-bg: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 10%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        #theme-toggle {
+            padding: 5px 15px;
+            cursor: pointer;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 10%;
+            background: linear-gradient(to bottom, var(--secondary-blue), var(--bg-color));
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .btn-back {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 10%;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .support-item h3 {
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .support-item p {
+            line-height: 1.6;
+        }
+
+        .contact-detail {
+            font-weight: bold;
+            color: var(--accent-blue);
+            word-wrap: break-word;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            padding: 40px 10%;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <img src="../resources/yout8_icon.ico" alt="Yout8 Icon" class="logo-img">
+        <strong>Yout8</strong>
+    </div>
+    <nav>
+        <a href="../index.html">Início</a>
+        <a href="downloads.html">Downloads</a>
+        <button id="theme-toggle">Trocar Tema</button>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Central de Suporte</h1>
+        <p>Precisa de ajuda ou quer enviar um feedback? Estamos à disposição para melhorar sua experiência com o Yout8.</p>
+        <a href="../index.html" class="btn-back">Voltar ao Início</a>
+    </section>
+
+    <section class="support-grid">
+        <div class="support-item">
+            <h3>E-mail</h3>
+            <p>Para suporte formal, questões empresariais ou parcerias:</p>
+            <p class="contact-detail">Yout8Mail@proton.me</p>
+        </div>
+        <div class="support-item">
+            <h3>Comunidade & Chat</h3>
+            <p>Reporte bugs em tempo real ou peça ajuda via Discord:</p>
+            <p class="contact-detail">Discord: anzyrl1029</p>
+        </div>
+        <div class="support-item">
+            <h3>Social & Novidades</h3>
+            <p>Acompanhe o desenvolvimento e atualizações:</p>
+            <p class="contact-detail">TikTok: kernel.cs</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-columns">
+        <div>
+            <h4>Yout8 Support</h4>
+            <p>Utilize nossos canais oficiais para garantir a sua segurança.</p>
+        </div>
+        <div>
+            <h4>Comunidade</h4>
+            <a href="https://github.com/Yout8/yout8-repository">Repositório GitHub</a>
+        </div>
+        <div>
+            <h4>Idiomas</h4>
+            <p>Português, Inglês</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const btn = document.getElementById('theme-toggle');
+    btn.onclick = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', targetTheme);
+    };
+</script>
+
+</body>
+</html>
