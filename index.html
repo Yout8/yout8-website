@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yout8 - Otimização em Download de Mídia</title>
+    <title>Yout8 Website</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         :root {
             --bg-color: #ffffff;
@@ -93,6 +94,7 @@
             border-radius: 8px;
             display: inline-block;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
         }
 
         .specs-grid {
@@ -124,6 +126,13 @@
             color: #888;
             font-size: 0.8rem;
         }
+
+        /* Centralização do reCAPTCHA */
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +155,12 @@
     <section class="hero">
         <h1>Baixe vídeos e áudios com precisão</h1>
         <p>Um utilitário robusto para Windows que processa URLs, Playlists e Shorts com suporte a múltiplos formatos e alta fidelidade.</p>
-        <a href="pages/downloads.html" class="btn-main-download">Baixar Yout8</a>
+        
+        <div class="captcha-container">
+            <div class="g-recaptcha" data-sitekey="6LfT1q0sAAAAAOow8qAm0bwhBBdehYJWkgoKm2_O"></div>
+        </div>
+
+        <a href="pages/downloads.html" class="btn-main-download" id="download-link">Baixar Yout8</a>
         <p class="version-tag">Versão 1.0.0 | Compatível com Windows (x86/x64)</p>
     </section>
 
@@ -197,11 +211,22 @@
 </footer>
 
 <script>
+    // Lógica do Tema
     const btn = document.getElementById('theme-toggle');
     btn.onclick = () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', targetTheme);
+    };
+
+    // Validação do reCAPTCHA antes do download
+    const downloadBtn = document.getElementById('download-link');
+    downloadBtn.onclick = (e) => {
+        const response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            e.preventDefault();
+            alert("Por favor, complete o reCAPTCHA para prosseguir.");
+        }
     };
 </script>
 
