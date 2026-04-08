@@ -1,1 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Yout8 · Baixador de vídeos, playlists e shorts</title>
+    <!-- Font Awesome 6 (ícones modernos mas com visual limpo) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            background: #ffffff;
+            font-family: 'Segoe UI', 'Helvetica Neue', 'Roboto', 'Arial', sans-serif;
+            color: #1e2a3a;
+            line-height: 1.5;
+        }
+
+        /* container principal */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 2rem 1rem;
+        }
+
+        /* cabeçalho e cone skeuomórfico */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eaeef2;
+            padding-bottom: 1.5rem;
+        }
+
+        /* cone 3D com sombras e reflexo (skeuomorfismo) */
+        .cone-logo {
+            position: relative;
+            width: 85px;
+            height: 85px;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.15));
+            transition: transform 0.2s ease;
+        }
+        .cone-logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-text h1 {
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #1f3b4c;
+            line-height: 1.1;
+        }
+        .logo-text h1 span {
+            color: #f15a24; /* laranja destaque */
+            font-weight: 700;
+        }
+        .tagline {
+            font-size: 0.9rem;
+            color: #5a6e7c;
+            margin-top: 4px;
+            border-left: 3px solid #f15a24;
+            padding-left: 12px;
+        }
+
+        /* hero / descrição */
+        .hero {
+            text-align: center;
+            margin: 2rem 0 2.5rem;
+        }
+        .badge-features {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+        .feature-chip {
+            background: #f0f4f8;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1f5e8e;
+        }
+        .feature-chip i {
+            margin-right: 6px;
+            color: #f15a24;
+        }
+        .hero h2 {
+            font-size: 1.9rem;
+            font-weight: 500;
+            color: #1e3a4d;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+        }
+        .hero p {
+            font-size: 1.05rem;
+            color: #2c4b63;
+            max-width: 680px;
+            margin: 0 auto 2rem;
+        }
+
+        /* botão principal estilo "grande e destacado" */
+        .btn-download-main {
+            display: inline-block;
+            background-color: #f15a24;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1rem 2.8rem;
+            border-radius: 60px;
+            text-decoration: none;
+            box-shadow: 0 5px 12px rgba(241,90,36,0.3);
+            transition: all 0.2s;
+            border: none;
+            letter-spacing: 0.5px;
+        }
+        .btn-download-main i {
+            margin-right: 12px;
+            font-size: 1.6rem;
+            vertical-align: middle;
+        }
+        .btn-download-main:hover {
+            background-color: #d34412;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 18px rgba(241,90,36,0.35);
+        }
+        .small-note {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #6a7e8e;
+        }
+        /* ícones de SO (estilo Web 2.0 tardio) */
+        .os-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem 0 1rem;
+            padding: 0.8rem 0;
+            border-top: 1px solid #ecf0f2;
+            border-bottom: 1px solid #ecf0f2;
+        }
+        .os-icons i {
+            font-size: 2rem;
+            color: #3a6b92;
+            transition: 0.1s;
+        }
+        .os-icons span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 6px;
+            color: #4f6f8a;
+        }
+        .os-icons div {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* seção de outras opções de download (tabela / grid) */
+        .download-options {
+            margin: 3rem 0 2rem;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #1e3a4d;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #f15a24;
+            padding-left: 1rem;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .option-card {
+            background: #fbfdfe;
+            border: 1px solid #e2e9ef;
+            border-radius: 20px;
+            padding: 1.2rem 1.5rem;
+            transition: box-shadow 0.2s;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .option-card:hover {
+            box-shadow: 0 6px 14px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+            border-color: #cbdbe0;
+        }
+        .host-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 160px;
+        }
+        .host-info i {
+            font-size: 2rem;
+            width: 44px;
+            color: #2b5b84;
+        }
+        .host-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #1a3d57;
+        }
+        .badge-rec {
+            background-color: #f15a24;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .btn-download-sm {
+            background: #eef3fc;
+            color: #1f6392;
+            padding: 0.55rem 1.3rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.15s;
+            border: 1px solid #cbdde9;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download-sm i {
+            font-size: 0.9rem;
+        }
+        .btn-download-sm:hover {
+            background: #e2eef9;
+            border-color: #9bb7cc;
+            color: #0e4a70;
+        }
+        .dotnet-badge {
+            font-size: 0.7rem;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+        .info-note {
+            background: #f8fafc;
+            border-left: 4px solid #f15a24;
+            padding: 0.8rem 1.2rem;
+            margin: 2rem 0 1rem;
+            font-size: 0.85rem;
+            color: #2c4f6e;
+            border-radius: 12px;
+        }
+
+        /* rodapé com grid estilo documentação */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eef2f5;
+        }
+        .footer-col h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f4b6e;
+            margin-bottom: 1rem;
+            letter-spacing: -0.2px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col li {
+            margin-bottom: 0.6rem;
+        }
+        .footer-col a {
+            text-decoration: none;
+            color: #3f6b8c;
+            font-size: 0.85rem;
+            transition: 0.1s;
+        }
+        .footer-col a:hover {
+            color: #f15a24;
+            text-decoration: underline;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.75rem;
+            color: #7f95ab;
+            border-top: 1px solid #eef2f5;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .logo-text h1 {
+                font-size: 1.9rem;
+            }
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            .btn-download-main {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.6rem;
+            }
+            .option-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .btn-group {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .host-info {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- cabeçalho com cone 3D skeuomórfico -->
+    <div class="header">
+        <div class="cone-logo">
+            <!-- Cone de trânsito estilizado com gradiente, reflexo e sombra interna (aparência 3D) -->
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="coneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ff7b3a"/>
+                        <stop offset="40%" stop-color="#f15a24"/>
+                        <stop offset="100%" stop-color="#c23d0c"/>
+                    </linearGradient>
+                    <linearGradient id="stripeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                        <stop offset="80%" stop-color="#f9f9f9"/>
+                    </linearGradient>
+                    <filter id="shadow3d" x="-10%" y="-10%" width="130%" height="130%">
+                        <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000030"/>
+                    </filter>
+                </defs>
+                <!-- corpo principal do cone (formato piramidal arredondado) -->
+                <path d="M50 15 L72 75 Q72 85 50 85 Q28 85 28 75 Z" fill="url(#coneGrad)" filter="url(#shadow3d)" stroke="#a03310" stroke-width="0.8"/>
+                <!-- faixa refletiva branca superior -->
+                <path d="M44 38 L56 38 L59 48 L41 48 Z" fill="url(#stripeGrad)" opacity="0.95"/>
+                <!-- faixa refletiva branca inferior -->
+                <path d="M38 60 L62 60 L65 70 L35 70 Z" fill="url(#stripeGrad)" opacity="0.95"/>
+                <!-- detalhe base com relevo -->
+                <rect x="28" y="83" width="44" height="6" rx="2" fill="#b03c12" opacity="0.8"/>
+                <!-- brilho especular (reflexo) -->
+                <path d="M52 18 L58 30 L54 32 L48 20 Z" fill="#ffffff" opacity="0.35"/>
+            </svg>
+        </div>
+        <div class="logo-text">
+            <h1>Yout<span>8</span></h1>
+            <div class="tagline">download rápido · suporte a playlists e shorts</div>
+        </div>
+    </div>
+
+    <!-- hero / principais funcionalidades -->
+    <div class="hero">
+        <div class="badge-features">
+            <span class="feature-chip"><i class="fas fa-link"></i> URLs individuais</span>
+            <span class="feature-chip"><i class="fas fa-list"></i> Playlists completas</span>
+            <span class="feature-chip"><i class="fas fa-film"></i> YouTube Shorts</span>
+            <span class="feature-chip"><i class="fas fa-download"></i> Alta velocidade</span>
+        </div>
+        <h2>Extraia vídeos, áudio e pastas inteiras com um clique</h2>
+        <p>Yout8 processa qualquer link público do YouTube — vídeos isolados, listas de reprodução e Shorts. 
+        Interface limpa, sem anúncios e foco em eficiência. Versão para Windows 7, 8, 10 e 11 (32/64 bits).</p>
+        
+        <!-- Botão principal - recomendado (MediaFire, versão sem .NET) -->
+        <a class="btn-download-main" href="https://www.mediafire.com/file/r4xz8otvn48ksa9/yout8-1.0.0-64x_86x.zip/file" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-download"></i> Baixar Yout8 (Recomendado)
+        </a>
+        <div class="small-note"><i class="fas fa-check-circle" style="color:#2a9d8f;"></i> Versão estável · sem .NET incluso (leve e portátil)</div>
+    </div>
+
+    <!-- Ícones de SO (estilo Web 2.0 / utilitário) -->
+    <div class="os-icons">
+        <div><i class="fab fa-windows"></i> <span>Windows 7/8/10/11</span></div>
+        <div><i class="fab fa-apple"></i> <span>macOS (em breve)</span></div>
+        <div><i class="fab fa-linux"></i> <span>Linux (Beta)</span></div>
+        <div><i class="fab fa-android"></i> <span>Android (futuro)</span></div>
+        <div><i class="fab fa-chrome"></i> <span>Extensão Web</span></div>
+    </div>
+
+    <!-- seção de opções de download: Mega, MediaFire, Google Drive (com/sem dotnet) -->
+    <div class="download-options">
+        <div class="section-title">
+            <i class="fas fa-cloud-download-alt" style="margin-right: 10px; color:#f15a24;"></i> Todas as versões e fontes
+        </div>
+        <div class="options-grid">
+
+            <!-- MediaFire (Recomendado) -->
+            <div class="option-card">
+                <div class="host-info">
+                    <i class="fas fa-fire"></i>
+                    <div>
+                        <span class="host-name">MediaFire <span class="badge-rec">Recomendado</span></span>
+                        <div style="font-size: 0.7rem; color:#577a9e;">mais rápido e estável</div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="https://www.mediafire.com/file/r4xz8otvn48ksa9/yout8-1.0.0-64x_86x.zip/file" target="_blank" class="btn-download-sm"><i class="fas fa-file-archive"></i> sem .NET <span class="dotnet-badge">portátil</span></a>
+                    <a href="https://www.mediafire.com/file/b64qrsrtsf29k92/yout8-1.0.0-86x_64x%255Bdotnet%255D.7z/file" target="_blank" class="btn-download-sm"><i class="fas fa-code"></i> com .NET <span class="dotnet-badge">runtime incluso</span></a>
+                </div>
+            </div>
+
+            <!-- Mega.nz -->
+            <div class="option-card">
+                <div class="host-info">
+                    <i class="fas fa-database"></i>
+                    <div>
+                        <span class="host-name">Mega.nz</span>
+                        <div style="font-size: 0.7rem; color:#577a9e;">criptografia e tráfego generoso</div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="https://mega.nz/file/mBEElBCZ#jRs7VtA7fqJrnAzTc_zYHiD1-8bBYMQxcaswSFObHq8" target="_blank" class="btn-download-sm"><i class="fas fa-cloud"></i> sem .NET</a>
+                    <a href="https://mega.nz/file/OZ1WBB7L#11Q0hKu7HkWGbLiP8uG_ximvmmImVcSnA-aO-M8mkao" target="_blank" class="btn-download-sm"><i class="fas fa-cogs"></i> com .NET</a>
+                </div>
+            </div>
+
+            <!-- Google Drive -->
+            <div class="option-card">
+                <div class="host-info">
+                    <i class="fab fa-google-drive"></i>
+                    <div>
+                        <span class="host-name">Google Drive</span>
+                        <div style="font-size: 0.7rem; color:#577a9e;">acesso direto via Google</div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="https://drive.google.com/file/d/19nGEC6gwNXnGOa6QUXOFkqWnD9mx_-lV/view?usp=sharing" target="_blank" class="btn-download-sm"><i class="fab fa-google"></i> sem .NET</a>
+                    <a href="https://drive.google.com/file/d/10ZspGCfmqo_n7dUzjlETBI6OuqTlAN1P/view?usp=drive_link" target="_blank" class="btn-download-sm"><i class="fas fa-tools"></i> com .NET</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <i class="fas fa-info-circle" style="margin-right: 8px; color:#f15a24;"></i> 
+            <strong>Sobre as versões com .NET:</strong> Incluem o runtime .NET 6.0 / 8.0 embutido, ideal para quem não tem o framework instalado.
+            A versão <strong>sem .NET</strong> requer .NET Desktop Runtime 6.0+ (cerca de 50 MB). Recomendamos a versão portátil (MediaFire) para maior compatibilidade.
+        </div>
+    </div>
+
+    <!-- Rodapé com grid clássico "Para Todos, Para Profissionais, Para Desenvolvedores" -->
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h4><i class="fas fa-users"></i> Para Todos</h4>
+            <ul>
+                <li><a href="#"><i class="fas fa-question-circle"></i> Central de Ajuda</a></li>
+                <li><a href="#"><i class="fas fa-video"></i> Como baixar playlists</a></li>
+                <li><a href="#"><i class="fas fa-mobile-alt"></i> Versões mobile</a></li>
+                <li><a href="#"><i class="fas fa-comment"></i> Fórum da comunidade</a></li>
+                <li><a href="#"><i class="fas fa-shield-alt"></i> Política de privacidade</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4><i class="fas fa-briefcase"></i> Para Profissionais</h4>
+            <ul>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Automação via CLI</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Documentação técnica</a></li>
+                <li><a href="#"><i class="fas fa-key"></i> Licenciamento empresarial</a></li>
+                <li><a href="#"><i class="fas fa-headset"></i> Suporte premium</a></li>
+                <li><a href="#"><i class="fas fa-database"></i> Integração com NAS</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4><i class="fas fa-laptop-code"></i> Para Desenvolvedores</h4>
+            <ul>
+                <li><a href="#"><i class="fab fa-github"></i> GitHub (API aberta)</a></li>
+                <li><a href="#"><i class="fas fa-code-branch"></i> SDK e exemplos</a></li>
+                <li><a href="#"><i class="fas fa-bug"></i> Reportar bug / Roadmap</a></li>
+                <li><a href="#"><i class="fas fa-palette"></i> Construir skin própria</a></li>
+                <li><a href="#"><i class="fas fa-terminal"></i> Scripts de automação</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="copyright">
+        <i class="far fa-copyright"></i> 2012–2025 Yout8 Project — software livre para download de mídia educacional e conteúdo de código aberto.
+        Yout8 não é afiliado ao YouTube™. Respeite os direitos autorais.
+    </div>
+</div>
+<!-- pequeno detalhe: garantindo que os links abram em nova aba com segurança -->
+</body>
+</html>
