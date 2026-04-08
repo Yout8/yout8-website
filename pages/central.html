@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yout8 Website</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --accent-blue: #2b5797;
+            --secondary-blue: #f0f5f9;
+            --border-color: #dddddd;
+            --footer-bg: #f8f9fa;
+        }
 
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #e0e0e0;
+            --accent-blue: #4a9eff;
+            --secondary-blue: #1a1a1a;
+            --border-color: #333333;
+            --footer-bg: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 10%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        nav a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        #theme-toggle {
+            padding: 5px 15px;
+            cursor: pointer;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 10%;
+            background: linear-gradient(to bottom, var(--secondary-blue), var(--bg-color));
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .btn-main-download {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 40px 10%;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .spec-item h3 {
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 5px;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            padding: 40px 10%;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .version-tag {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        /* Centralização do reCAPTCHA */
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <img src="resources/yout8_icon.ico" alt="Yout8 Icon" class="logo-img">
+        <strong>Yout8</strong>
+    </div>
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="pages/downloads.html">Downloads</a>
+        <a href="pages/suport.html">Suporte</a>
+        <a href="https://github.com/Yout8/yout8-repository">GitHub</a>
+        <button id="theme-toggle">Trocar Tema</button>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Baixe vídeos e áudios com precisão</h1>
+        <p>Um utilitário robusto para Windows que processa URLs, Playlists e Shorts com suporte a múltiplos formatos e alta fidelidade.</p>
+        
+        <div class="captcha-container">
+            <div class="g-recaptcha" data-sitekey="6LfT1q0sAAAAAOow8qAm0bwhBBdehYJWkgoKm2_O"></div>
+        </div>
+
+        <a href="pages/downloads.html" class="btn-main-download" id="download-link">Baixar Yout8</a>
+        <p class="version-tag">Versão 1.0.0 | Compatível com Windows (x86/x64)</p>
+    </section>
+
+    <section class="specs-grid">
+        <div class="spec-item">
+            <h3>Funcionalidades</h3>
+            <ul>
+                <li>Suporte a URLs, Playlists e Shorts</li>
+                <li>Áudio: MP3, AAC, FLAC, OPUS (até 320kbps)</li>
+                <li>Vídeo: MP4, MKV até 4K/8K</li>
+                <li>Edição de metadados com TagLibSharp</li>
+            </ul>
+        </div>
+        <div class="spec-item">
+            <h3>Requisitos de Sistema</h3>
+            <ul>
+                <li>SO: Windows 7 / 8 / 10 / 11</li>
+                <li>Arquitetura: x86 ou x64</li>
+                <li>Ambiente: .NET 8.0 (Versão disponível com runtime incluso)</li>
+            </ul>
+        </div>
+        <div class="spec-item">
+            <h3>Hardware Mínimo</h3>
+            <ul>
+                <li>Processador: 1.0 GHz ou superior</li>
+                <li>Memória RAM: 512MB livre</li>
+                <li>Espaço: 50MB para aplicação</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-columns">
+        <div>
+            <h4>Yout8 Project</h4>
+            <p>Desenvolvido com C# e YoutubeExplode.</p>
+        </div>
+        <div>
+            <h4>Comunidade</h4>
+            <a href="https://github.com/Yout8/yout8-repository">Repositório GitHub</a>
+        </div>
+        <div>
+            <h4>Idiomas</h4>
+            <p>Português, Inglês</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Lógica do Tema
+    const btn = document.getElementById('theme-toggle');
+    btn.onclick = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', targetTheme);
+    };
+
+    // Validação do reCAPTCHA antes do download
+    const downloadBtn = document.getElementById('download-link');
+    downloadBtn.onclick = (e) => {
+        const response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            e.preventDefault();
+            alert("Por favor, complete o reCAPTCHA para prosseguir.");
+        }
+    };
+</script>
+
+</body>
+</html>
